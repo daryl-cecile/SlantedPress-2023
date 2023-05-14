@@ -1,6 +1,7 @@
 import ClientMantineProvider from '@/components/providers/mantine'
 import './globals.css'
 import { Inter } from 'next/font/google'
+import NavBar from '@/components/nav'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -17,7 +18,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <ClientMantineProvider>
-        <body className={inter.className}>{children}</body>
+        <body className={inter.className}>
+          <NavBar />
+          {children}
+        </body>
       </ClientMantineProvider>
     </html>
   )
