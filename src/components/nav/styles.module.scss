@@ -1,0 +1,37 @@
+
+
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    height: 50px;
+    top: 0;
+    width: 100%;
+
+    ul {
+        @apply max-w-screen-xl w-full;
+        flex-direction: row;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 0 1rem;
+
+        .navLogo {
+            max-height: 2em;
+        }
+    
+        .navSeparator {
+            flex: 1;
+        }
+
+        .navAuthBtn {
+            @apply bg-black text-white;
+            padding: 0.25em 0.75em;
+            border-radius: 1em;
+        }
+
+    }
+
+}
