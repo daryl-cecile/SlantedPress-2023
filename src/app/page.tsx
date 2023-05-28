@@ -1,20 +1,17 @@
 import PageContent from "@/components/pageContent";
 import PostCollection from "@/components/postCollection";
 import Section from "@/components/section";
+import { getAllArticles } from "@/helpers/articleFetcher";
 
-async function getData(): Promise<Array<SimpleArticle>> {
-  const postCollection: Array<any> = await fetch(
-    "https://jsonplaceholder.typicode.com/posts"
-  ).then((res) => res.json());
-  const imageCollection: Array<any> = await fetch(
-    "https://jsonplaceholder.typicode.com/photos"
-  ).then((res) => res.json());
+async function getData() {
+  const postCollection = await getAllArticles();
 
-  return postCollection.map((post: any, index: number) => {
+  return postCollection.map((post, index: number) => {
     return {
       ...post,
-      imgSrc: imageCollection.at(index).url,
+      heroImgSrc: `https://assets.slantedpress.com${post.heroImgSrc}`,
       timestamp: Date.now(),
+      postedTimestamp: post.postedTimestamp || Date.now()
     };
   });
 }
@@ -25,7 +22,6 @@ export default async function Home() {
   return (
     <PageContent>
       <Section>
-        <h1>Hello world</h1>
         <PostCollection items={articles} spotlight={true} />
       </Section>
     </PageContent>

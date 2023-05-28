@@ -8,5 +8,5 @@ type SimpleArticle = {
   title: string;
   body: string;
   imgSrc: string;
-  timestamp: string;
+  timestamp: number;
 };

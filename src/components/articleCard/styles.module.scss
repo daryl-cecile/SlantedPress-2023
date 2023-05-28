@@ -6,6 +6,8 @@
     @apply absolute h-full w-full;
     object-fit: cover;
     object-position: center center;
+    transition: all 0.4s;
+    transform: scale(1.1);
   }
 
   .duration {
@@ -38,6 +40,10 @@
 .article:focus-within,
 .article:hover {
   @apply ring-offset-2 ring-2 ring-purple-700;
+
+  img {
+    transform: scale(1);
+  }
 
   .duration {
     @apply opacity-100;
