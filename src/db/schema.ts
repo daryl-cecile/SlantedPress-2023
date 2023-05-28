@@ -1,5 +1,5 @@
-import { boolean, integer, jsonb, pgTable, text, uuid, varchar } from "drizzle-orm/pg-core";
-import { InferModel } from 'drizzle-orm';
+import { boolean, integer, jsonb, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { InferModel, relations } from 'drizzle-orm';
 
 export const usersTable = pgTable('users', {
   id: uuid("id").primaryKey().defaultRandom(),
@@ -13,13 +13,13 @@ export const articlesTable = pgTable('articles', {
   id: uuid("id").primaryKey().defaultRandom(),
   slug: text('slug').notNull(),
   title: text('title').notNull(),
-  authorId: uuid("authorId").notNull().references(() => usersTable.id),
+  authorId: uuid("authorId").notNull(),
   snippet: text("snippet"),
-  editorId: uuid("editorId").references(() => usersTable.id),
-  postedTimestamp: integer("postedTimestamp"),
+  editorId: uuid("editorId"),
+  postedTimestamp: timestamp("postedTimestamp", {withTimezone:true}),
   heroImgSrc: text('heroImageSrc').notNull(),
   isApproved: boolean('isApproved').default(false),
-  approverId: uuid('approverId').references(() => usersTable.id),
+  approverId: uuid('approverId'),
 
   content: text('content'),
   category: integer('category'),
@@ -36,3 +36,25 @@ export const articlesTable = pgTable('articles', {
    
 export type Article = InferModel<typeof articlesTable>; // return type when queried
 export type NewArticle = InferModel<typeof articlesTable, 'insert'>; // insert type
+
+ 
+export const usersTableRelations = relations(usersTable, ({ many }) => ({
+	authoredArticles: many(articlesTable),
+	editedArticles: many(articlesTable),
+	approvedArticles: many(articlesTable),
+}));
+
+export const articlesTableRelations = relations(articlesTable, ({ one }) => ({
+	author: one(usersTable, {
+		fields: [articlesTable.authorId],
+		references: [usersTable.id],
+	}),
+  approver: one(usersTable, {
+		fields: [articlesTable.approverId],
+		references: [usersTable.id],
+	}),
+  editor: one(usersTable, {
+		fields: [articlesTable.editorId],
+		references: [usersTable.id],
+	}),
+}));

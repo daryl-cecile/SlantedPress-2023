@@ -1,4 +1,5 @@
 import { Article } from "@/db/schema";
+import { clerkClient } from "@clerk/nextjs";
 import parse from "date-fns/parse"
 
 export async function getArticle(slug:string) {
@@ -39,21 +40,35 @@ type OldApiArticle = {
 }
 
 export async function getAllArticles() {
-    const users:Array<any> = await getUsers();
+    const users = await clerkClient.users.getUserList({ limit: 499 });
     const results = await fetch(`https://api.slantedpress.com/api-transfer/all`).then(res => res.json());
 
-    const getUserIdByUsername = (username:string) => {
-        return users.find(u => {
-            if (username.startsWith('@') && u.username.toLowerCase() == username.substring(1).toLowerCase()) return true;
+    const getUserIdByUsername = (handle?:string) => {
+        const username = handle?.replaceAll('.', '_');
+        if (!username) return null;
+        handle = username.toLowerCase();
+        const usr = users.find(u => {
+            if (!u.username) return false;
+            if (username.startsWith('@') && u.username.toLowerCase() == username.substring(1)) return true;
             if (u.username.toLowerCase() == username.toLowerCase()) return true;
-            if ( (u.first_name + ' ' + u.last_name).toLowerCase() === username.toLowerCase() ) return true;
-        })?.id;
+            if ( (u.firstName + ' ' + u.lastName).toLowerCase() === handle) return true;
+        });
+
+        return usr?.externalId ?? null;
     }
 
     return results.map((legacyEntry:OldApiArticle) => {
+        
+        if (!legacyEntry.date_posted.includes('-')) legacyEntry.date_posted += `-0700`;
+        if (legacyEntry.date_posted.endsWith('-0000')) legacyEntry.date_posted = legacyEntry.date_posted.replace('-0000', '-0700');
+
+        const timestamp = parse(legacyEntry.date_posted, legacyEntry.date_posted?.includes('-') ?  "ddMMMyyyy-HHmm" : "ddMMyyyy", Date.now());
+
+        if (!timestamp || String(timestamp).includes('Invalid Date')) console.log(`Timestamp failed for ${legacyEntry.date_posted}`);
+
         const article:Article = {
             id: String(legacyEntry.id || legacyEntry.post_id),
-            authorId: legacyEntry.author && (getUserIdByUsername(legacyEntry.author) ?? 'IDK-' + legacyEntry.author),
+            authorId: getUserIdByUsername(legacyEntry.author)!,
             category: legacyEntry.category,
             content: legacyEntry.content,
             heroImgSrc: legacyEntry.hero,
@@ -64,13 +79,13 @@ export async function getAllArticles() {
             isPublished: legacyEntry.is_published === 1,
             isSponsored: legacyEntry.is_sponsored === 1,
             isUnderfeed: legacyEntry.is_underfeed === 1,
-            postedTimestamp: parse(legacyEntry.date_posted, "ddMMMyyyy-kkmm", Date.now()).getTime(),
+            postedTimestamp: timestamp,
             slug: legacyEntry.slug,
             tags: legacyEntry.tags.split(',').map(t => t.trim()),
             title: legacyEntry.title,
             version: legacyEntry.e_version,
-            approverId: legacyEntry.approved_by && (getUserIdByUsername(legacyEntry.approved_by) ?? 'IDK-' + legacyEntry.approved_by),
-            editorId: legacyEntry.editor && (getUserIdByUsername(legacyEntry.editor) ??  'IDK-' + legacyEntry.editor),
+            approverId: getUserIdByUsername(legacyEntry.approved_by),
+            editorId: getUserIdByUsername(legacyEntry.editor),
             jsonArticle: legacyEntry.json_article ? JSON.parse(legacyEntry.json_article) : null,
             snippet: legacyEntry.snippet ?? null
         }

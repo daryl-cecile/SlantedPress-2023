@@ -4,12 +4,19 @@ import { clerkClient } from "@clerk/nextjs";
 import { User } from "@clerk/nextjs/dist/types/server";
 import { eq } from "drizzle-orm";
 
+function pause(seconds:number) {
+    return new Promise(resolve => {
+        setTimeout(resolve, seconds * 1000);
+    });
+}
 
 export async function syncUsersFromClerk(){
 
+    
     let clerkUsers:Array<User> = [];
+    clerkUsers = await clerkClient.users.getUserList({ limit: 499 });
 
-    clerkUsers = await clerkClient.users.getUserList();
+    let clerkApiHitCount = 0;
 
     for (let clerkUser of clerkUsers) {
         
@@ -22,12 +29,20 @@ export async function syncUsersFromClerk(){
             id: clerkUser.externalId ?? undefined
         }).returning();
 
-        if (!clerkUser.externalId && result.length > 0) await clerkClient.users.updateUser(clerkUser.id, { externalId: result.at(0)?.id });
+        if (!clerkUser.externalId && result.length > 0) {
+            await clerkClient.users.updateUser(clerkUser.id, { externalId: result.at(0)?.id });
+            clerkApiHitCount ++;
+
+            if (clerkApiHitCount > 15) {
+                clerkApiHitCount = 0;
+                await pause(10);
+            }
+        }
     
     }
 
     // get it again
-    clerkUsers = await clerkClient.users.getUserList();
+    clerkUsers = await clerkClient.users.getUserList({ limit: 499 });
 
     const dbUsers = await db.select().from(usersTable);
 
