@@ -1,0 +1,158 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "id": "655f9b0d-536e-4977-8a54-cb532039ace1",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "articles": {
+      "name": "articles",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "slug": {
+          "name": "slug",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "title": {
+          "name": "title",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "authorId": {
+          "name": "authorId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "snippet": {
+          "name": "snippet",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "editorId": {
+          "name": "editorId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "postedTimestamp": {
+          "name": "postedTimestamp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "heroImageSrc": {
+          "name": "heroImageSrc",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "isApproved": {
+          "name": "isApproved",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "approverId": {
+          "name": "approverId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "content": {
+          "name": "content",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "category": {
+          "name": "category",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "tags": {
+          "name": "tags",
+          "type": "text[]",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "isPublished": {
+          "name": "isPublished",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "isChoice": {
+          "name": "isChoice",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "isInked": {
+          "name": "isInked",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "isUnderfeed": {
+          "name": "isUnderfeed",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "isDraft": {
+          "name": "isDraft",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": true
+        },
+        "isSponsored": {
+          "name": "isSponsored",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false,
+          "default": false
+        },
+        "version": {
+          "name": "version",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "default": 4
+        },
+        "v3_jsonArticle": {
+          "name": "v3_jsonArticle",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {}
+    }
+  },
+  "enums": {},
+  "schemas": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

@@ -1,3 +1,4 @@
+import { Article } from "@/db/schema";
 import parse from "date-fns/parse"
 
 export async function getArticle(slug:string) {
@@ -10,7 +11,7 @@ export async function getUsers(){
         .then(res => res.json());
 }
 
-export type OldApiArticle = {
+type OldApiArticle = {
     title: string,
 	slug: string,
     id?: string, // post-id,
@@ -35,31 +36,6 @@ export type OldApiArticle = {
     is_sponsored: number,
     e_version: number,
     json_article?: any
-}
-
-export type Article = {
-    id: string,
-    slug: string,
-    title: string,
-    authorId: string,
-    snippet?: string,
-    editorId?: string,
-    postedTimestamp: number,
-    heroImgSrc: string,
-    isApproved: boolean,
-    approverId?: string,
-
-    content: string,
-    category: number,
-    tags: Array<string>,
-    isPublished: boolean,
-    isChoice: boolean,
-    isInked: boolean,
-    isUnderfeed: boolean,
-    isDraft: boolean,
-    isSponsored: boolean,
-    version: number,
-    jsonArticle?: any
 }
 
 export async function getAllArticles() {
@@ -95,8 +71,8 @@ export async function getAllArticles() {
             version: legacyEntry.e_version,
             approverId: legacyEntry.approved_by && (getUserIdByUsername(legacyEntry.approved_by) ?? 'IDK-' + legacyEntry.approved_by),
             editorId: legacyEntry.editor && (getUserIdByUsername(legacyEntry.editor) ??  'IDK-' + legacyEntry.editor),
-            jsonArticle: legacyEntry.json_article,
-            snippet: legacyEntry.snippet
+            jsonArticle: legacyEntry.json_article ? JSON.parse(legacyEntry.json_article) : null,
+            snippet: legacyEntry.snippet ?? null
         }
 
         return article;

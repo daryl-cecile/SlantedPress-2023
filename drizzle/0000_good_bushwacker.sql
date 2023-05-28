@@ -1,0 +1,23 @@
+CREATE TABLE IF NOT EXISTS "articles" (
+	"id" uuid PRIMARY KEY NOT NULL,
+	"slug" text NOT NULL,
+	"title" text NOT NULL,
+	"authorId" uuid NOT NULL,
+	"snippet" text,
+	"editorId" uuid,
+	"postedTimestamp" integer,
+	"heroImageSrc" text NOT NULL,
+	"isApproved" boolean DEFAULT false,
+	"approverId" uuid,
+	"content" text,
+	"category" integer,
+	"tags" text[],
+	"isPublished" boolean DEFAULT false,
+	"isChoice" boolean DEFAULT false,
+	"isInked" boolean DEFAULT false,
+	"isUnderfeed" boolean DEFAULT false,
+	"isDraft" boolean DEFAULT true,
+	"isSponsored" boolean DEFAULT false,
+	"version" integer DEFAULT 4,
+	"v3_jsonArticle" jsonb
+);

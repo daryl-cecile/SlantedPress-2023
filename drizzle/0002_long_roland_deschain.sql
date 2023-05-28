@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "strategy" varchar(512) DEFAULT 'clerk';

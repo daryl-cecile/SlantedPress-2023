@@ -7,9 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest"
+    "post-update": "echo \"codesandbox preview only, need an update\" && yarn upgrade --latest",
+    "db:gen": "drizzle-kit generate:pg --schema=./src/db/schema.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.341.0",
+    "@aws-sdk/node-http-handler": "^3.341.0",
+    "@clerk/nextjs": "^4.19.0",
     "@emotion/react": "^11.11.0",
     "@mantine/carousel": "^6.0.10",
     "@mantine/core": "^6.0.10",
@@ -31,17 +35,22 @@
     "@types/react": "18.2.6",
     "@types/react-dom": "18.2.4",
     "autoprefixer": "10.4.14",
+    "date-fns": "2.30.0",
     "dayjs": "^1.11.7",
+    "drizzle-orm": "^0.26.1",
     "embla-carousel-react": "^8.0.0-rc03",
     "eslint": "8.40.0",
     "eslint-config-next": "13.4.2",
     "next": "13.4.2",
     "postcss": "8.4.23",
+    "postgres": "^3.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sass": "^1.62.1",
     "tailwindcss": "3.3.2",
-    "typescript": "5.0.4",
-    "date-fns": "2.30.0"
+    "typescript": "5.0.4"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.18.1"
   }
 }
