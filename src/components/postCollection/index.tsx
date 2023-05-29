@@ -1,4 +1,4 @@
-import { Article } from "@/helpers/articleFetcher";
+import { Article } from "@/db/schema";
 import ArticleCard from "../articleCard";
 import styles from "./styles.module.scss";
 
