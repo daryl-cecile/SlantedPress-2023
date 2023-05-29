@@ -25,6 +25,7 @@ export default async function ArticlePage({params}:DefaultProps){
                     <div>
                         <h1 className={clsx(roboto.className, 'text-[2.5rem] text-black')}>{article.title}</h1>
                         <br />
+                        {/* @ts-expect-error Server-Component */}
                         <h4>Written by <ProfileCardLink profileId={article.authorId}/></h4>
                     </div>
                 </article>
