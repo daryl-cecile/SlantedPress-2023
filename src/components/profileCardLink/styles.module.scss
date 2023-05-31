@@ -1,0 +1,22 @@
+
+.linkContainer {
+    position: relative; 
+    display: inline;
+    padding-bottom: 0.5rem;
+
+    .link {
+        @apply text-purple-500;
+    }
+
+    .linkCard {
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: none;
+    }
+
+    &:hover .linkCard {
+        display: initial;
+    }
+}

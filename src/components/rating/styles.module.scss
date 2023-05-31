@@ -1,0 +1,12 @@
+
+.rating {
+    @apply inline-flex items-center;
+
+    svg {
+        height: 1em;
+
+        &:first-of-type {
+            @apply ml-2;
+        }
+    }
+}

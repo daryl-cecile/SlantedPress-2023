@@ -1,3 +1,5 @@
+"use server";
+
 import db from "@/db/client";
 import { usersTable } from "@/db/schema";
 import { clerkClient } from "@clerk/nextjs";

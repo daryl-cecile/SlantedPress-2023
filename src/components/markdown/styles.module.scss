@@ -1,0 +1,41 @@
+
+.mdContainer {
+    @apply text-black;
+    
+    img {
+        width: 100%;
+        margin-bottom: 18px;
+        transition: all .4s;
+        box-shadow: 0 5px 40px -12px black;
+
+        & + figcaption {
+            @apply text-gray-500 w-full block text-sm text-center;
+
+            margin-bottom: 30px;
+            margin-top: -8px;
+        }
+    }
+
+    p {
+        @apply my-4;
+    }
+
+    iframe {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        transition: all .4s;
+        box-shadow: 0 5px 40px -12px black;
+    }
+
+    blockquote {
+        @apply border-l-2 border-black;
+    }
+
+    a {
+        @apply font-semibold text-purple-500 hover:text-purple-400;
+
+        &:focus-visible {
+            @apply outline-none ring-2 ring-offset-2 ring-purple-500;
+        }
+    }
+}

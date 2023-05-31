@@ -1,0 +1,42 @@
+
+
+.commentBox {
+    @apply flex flex-row gap-4 mt-8;
+
+    img {
+        @apply rounded-full w-10 h-10;
+    }
+
+    .content {
+        @apply flex-1 flex-col flex gap-2;
+
+        textarea {
+            @apply flex-1 resize-y border border-gray-300 rounded p-2;
+
+            &:focus-visible {
+                @apply outline-none ring-purple-500 ring-2 ring-offset-2;
+            }
+        }
+
+        .belt {
+            @apply flex flex-row justify-between;
+
+            span {
+                @apply text-xs text-gray-500;
+            }
+
+            button {
+                @apply px-2 py-1 rounded bg-white bg-gray-200 ring-transparent;
+
+                &:hover {
+                    @apply text-white bg-purple-500;
+                }
+
+                &:focus-visible {
+                    @apply outline-none ring-purple-500 ring-2 ring-offset-2 text-white bg-purple-500;
+                }
+            }
+        }
+    }
+
+}

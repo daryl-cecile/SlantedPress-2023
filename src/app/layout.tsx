@@ -4,7 +4,8 @@ import { Inter } from 'next/font/google'
 import NavBar from '@/components/nav'
 import { ClerkProvider } from '@clerk/nextjs'
 
-const inter = Inter({ subsets: ['latin'] })
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata = {
   title: 'SlantedPress',

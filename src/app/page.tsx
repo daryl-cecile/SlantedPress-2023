@@ -11,7 +11,7 @@ async function getData() {
       ...post,
       heroImgSrc: `https://assets.slantedpress.com${post.heroImgSrc}`,
       timestamp: Date.now(),
-      postedTimestamp: post.postedTimestamp || Date.now()
+      postedTimestamp: post.postedTimestamp || new Date
     };
   });
 }

@@ -1,0 +1,68 @@
+
+.card {
+    @apply shadow-xl rounded flex flex-col absolute bg-white;
+
+    overflow: hidden;
+
+    width: 280px;
+    height: 372px;
+}
+
+.bgImage {
+    height: 125px;
+    width: 100%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: blur(15px);
+}
+
+.midRow {
+    @apply flex flex-col items-center justify-center absolute w-full;
+
+    top: 62px;
+    height: 125px;
+
+    .dp {
+        @apply rounded-full;
+
+        width: 86px;
+        height: 86px;
+    }
+
+}
+
+.allElse {
+    @apply flex flex-col;
+
+    padding: 15px;
+    padding-top: 60px;
+
+    .nameLine {
+        @apply text-2xl text-center text-black mb-1;
+    }
+
+    .emailLine {
+        @apply font-light text-sm text-center mb-1;
+    }
+
+    .sinceLine {
+        @apply font-normal text-sm text-gray-600 text-center mb-1;
+    }
+
+    .metricRow {
+        @apply flex flex-row;
+
+        & > div {
+            @apply flex-1 flex items-center justify-center flex-col p-6;
+
+            & > span{
+                @apply text-black;
+
+                &:nth-of-type(2) {
+                    @apply font-bold text-xl text-gray-500;
+                }
+            }
+        }
+    }
+}
