@@ -4,17 +4,18 @@ import { clerkClient } from "@clerk/nextjs"
 import { eq } from "drizzle-orm"
 import { ProfileCard } from "../profileCard"
 import styles from "./styles.module.scss";
+import { UserRepo } from "@/db/repo/userRepo"
 
 type ProfileCardLinkProps = {
     profileId: string
 }
 
 export default async function ProfileCardLink(props:ProfileCardLinkProps){
-    const dbUsers = await db.select().from(usersTable).where( eq(usersTable.id, props.profileId) );
+    const dbUser = await UserRepo.getById(props.profileId);
 
-    if (!dbUsers || dbUsers.length === 0) return <span>Non-{props.profileId}</span>
+    if (!dbUser) return <span>Non-{props.profileId}</span>
 
-    const user = await clerkClient.users.getUser(dbUsers.at(0)!.clerkAccountId);
+    const user = await clerkClient.users.getUser(dbUser.clerkAccountId);
 
     if (!user) return <span>NotFound-{props.profileId}</span>
 

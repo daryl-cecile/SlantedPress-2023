@@ -24,18 +24,6 @@
             span {
                 @apply text-xs text-gray-500;
             }
-
-            button {
-                @apply px-2 py-1 rounded bg-white bg-gray-200 ring-transparent;
-
-                &:hover {
-                    @apply text-white bg-purple-500;
-                }
-
-                &:focus-visible {
-                    @apply outline-none ring-purple-500 ring-2 ring-offset-2 text-white bg-purple-500;
-                }
-            }
         }
     }
 

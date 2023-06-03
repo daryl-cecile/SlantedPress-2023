@@ -64,6 +64,13 @@
       "when": 1685304984942,
       "tag": "0008_famous_leper_queen",
       "breakpoints": false
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1685617040364,
+      "tag": "0009_gray_goblin_queen",
+      "breakpoints": false
     }
   ]
 }

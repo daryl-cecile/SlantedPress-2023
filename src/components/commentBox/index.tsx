@@ -3,6 +3,7 @@
 import { useUser, SignInButton } from '@clerk/nextjs';
 import styles from "./styles.module.scss";
 import { useState } from 'react';
+import Button from '../button';
 
 type CommentBoxProps = {
     topic: "article" | "discussions",
@@ -15,7 +16,7 @@ export default function CommentBox(props:CommentBoxProps){
 
     return (
         <div className={styles.commentBox}>
-            <img src={user?.imageUrl ?? "https://assets.slantedpress.com/dp/x"} alt={''} />
+            <img src={user ? `/assets/dp/${user.id}` : "https://assets.slantedpress.com/dp/x"} alt={''} />
             <div className={styles.content}>
                 <textarea
                     aria-label='Add a comment'
@@ -28,7 +29,7 @@ export default function CommentBox(props:CommentBoxProps){
                 ></textarea>
                 <div className={styles.belt}>
                     <span>{240 - content.length} remaining</span>
-                    <button>Comment</button>
+                    <Button intent="primary">Comment</Button>
                 </div>
             </div>
         </div>

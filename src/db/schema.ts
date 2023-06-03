@@ -37,14 +37,41 @@ export const articlesTable = pgTable('articles', {
 export type Article = InferModel<typeof articlesTable>; // return type when queried
 export type NewArticle = InferModel<typeof articlesTable, 'insert'>; // insert type
 
+export const commentsTable = pgTable('comments', {
+  id: uuid("id").primaryKey().defaultRandom(),
+  userId: uuid("authorId").notNull(),
+  articleId: uuid("articleId").notNull(),
+  ts: timestamp("postedTimestamp", {withTimezone:true}),
+  parentId: uuid("parentId"),
+  content: text('content')
+});
+   
+export type Comment = InferModel<typeof commentsTable>; // return type when queried
+export type NewComment = InferModel<typeof commentsTable, 'insert'>; // insert type
+
+export const commentsTableRelations = relations(commentsTable, ({many, one}) => ({
+  user: one(usersTable, {
+    fields: [commentsTable.userId],
+    references: [usersTable.id]
+  }),
+  article: one(articlesTable, {
+    fields: [commentsTable.articleId],
+    references: [articlesTable.id]
+  }),
+  childResponse: one(commentsTable, {
+    fields: [commentsTable.parentId],
+    references: [commentsTable.id]
+  })
+}));
  
 export const usersTableRelations = relations(usersTable, ({ many }) => ({
 	authoredArticles: many(articlesTable),
 	editedArticles: many(articlesTable),
 	approvedArticles: many(articlesTable),
+  comments: many(commentsTable)
 }));
 
-export const articlesTableRelations = relations(articlesTable, ({ one }) => ({
+export const articlesTableRelations = relations(articlesTable, ({ one, many }) => ({
 	author: one(usersTable, {
 		fields: [articlesTable.authorId],
 		references: [usersTable.id],
@@ -57,4 +84,5 @@ export const articlesTableRelations = relations(articlesTable, ({ one }) => ({
 		fields: [articlesTable.editorId],
 		references: [usersTable.id],
 	}),
+  comments: many(commentsTable)
 }));

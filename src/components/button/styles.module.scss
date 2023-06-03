@@ -1,0 +1,24 @@
+
+.defaultButton {
+    @apply flex flex-row gap-1 items-center px-2 py-1 rounded bg-transparent ring-transparent;
+
+    &:hover {
+        @apply text-white bg-purple-500;
+    }
+
+    &:focus-visible {
+        @apply outline-none ring-purple-500 ring-2 ring-offset-2 text-white bg-purple-500;
+    }
+
+    svg {
+        @apply w-3 max-h-4;
+    }
+}
+
+.primaryButton {
+    @apply bg-black text-white;
+}
+
+.secondaryButton {
+    @apply bg-gray-200;
+}

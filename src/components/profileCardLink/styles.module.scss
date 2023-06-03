@@ -10,13 +10,18 @@
 
     .linkCard {
         position: absolute;
-        top: 100%;
+        top: 0;
         left: 50%;
         transform: translateX(-50%);
-        display: none;
+
+        opacity: 0;
+        pointer-events: none;
+        transition: all .3s;
     }
 
     &:hover .linkCard {
-        display: initial;
+        top: 100%;
+        opacity: 1;
+        pointer-events: auto;
     }
 }

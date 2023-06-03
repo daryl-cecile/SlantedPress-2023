@@ -1,16 +1,15 @@
 import PageContent from "@/components/pageContent";
 import PostCollection from "@/components/postCollection";
 import Section from "@/components/section";
-import { getAllArticles } from "@/helpers/articleFetcher";
+import { ArticleRepo } from "@/db/repo/articleRepo";
 
 async function getData() {
-  const postCollection = await getAllArticles();
+  const postCollection = await ArticleRepo.getAll(12);
 
-  return postCollection.map((post, index: number) => {
+  return postCollection.map((post) => {
     return {
       ...post,
       heroImgSrc: `https://assets.slantedpress.com${post.heroImgSrc}`,
-      timestamp: Date.now(),
       postedTimestamp: post.postedTimestamp || new Date
     };
   });

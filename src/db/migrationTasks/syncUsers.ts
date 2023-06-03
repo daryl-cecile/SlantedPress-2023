@@ -75,3 +75,7 @@ export async function clerkUserAdded(clerkAccountId: string){
     await clerkClient.users.updateUser(clerkAccountId, { externalId: entry.at(0)?.id });
     
 }
+
+export async function migrateUsers(){
+    throw "Not implemented"
+}

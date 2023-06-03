@@ -1,4 +1,3 @@
-import ClientMantineProvider from '@/components/providers/mantine'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import NavBar from '@/components/nav'
@@ -20,12 +19,10 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <ClientMantineProvider>
           <body className={inter.className}>
             <NavBar />
             {children}
           </body>
-        </ClientMantineProvider>
       </html>
     </ClerkProvider>
   )
