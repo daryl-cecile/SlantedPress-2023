@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser, SignInButton } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import styles from "./styles.module.scss";
 import { useState } from 'react';
 import Button from '../button';

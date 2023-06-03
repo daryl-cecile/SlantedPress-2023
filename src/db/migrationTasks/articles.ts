@@ -61,7 +61,8 @@ async function getAllArticles() {
         if (!timestamp || String(timestamp).includes('Invalid Date')) console.log(`Timestamp failed for ${legacyEntry.date_posted}`);
 
         const article:Article = {
-            id: String(legacyEntry.id || legacyEntry.post_id),
+            id: uuidv4(),
+            legacyId: legacyEntry.post_id,
             authorId: getUserIdByUsername(legacyEntry.author)!,
             category: legacyEntry.category,
             content: legacyEntry.content,
@@ -98,7 +99,6 @@ export async function migrateArticles(){
     for (const article of articles) {
         try {
             await db.transaction(async (tx) => {
-                if ( !validateUUID(article.id) ) article.id = uuidv4();
 
                 article.authorId = article.authorId?.toLowerCase();
                 article.editorId = article.editorId?.toLowerCase() ?? null;

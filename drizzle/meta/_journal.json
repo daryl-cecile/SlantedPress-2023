@@ -71,6 +71,27 @@
       "when": 1685617040364,
       "tag": "0009_gray_goblin_queen",
       "breakpoints": false
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1685828103212,
+      "tag": "0010_brainy_machine_man",
+      "breakpoints": false
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1685828463618,
+      "tag": "0011_lame_kulan_gath",
+      "breakpoints": false
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1685828514984,
+      "tag": "0012_foamy_mercury",
+      "breakpoints": false
     }
   ]
 }

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS "articles" (
-	"id" uuid PRIMARY KEY NOT NULL,
-	"slug" text NOT NULL,
+	"id" integer NOT NULL,
+	"slug" text PRIMARY KEY NOT NULL,
 	"title" text NOT NULL,
 	"authorId" uuid NOT NULL,
 	"snippet" text,

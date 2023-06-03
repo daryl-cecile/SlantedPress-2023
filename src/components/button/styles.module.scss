@@ -22,3 +22,11 @@
 .secondaryButton {
     @apply bg-gray-200;
 }
+
+.profileImage {
+    @apply p-0 rounded-full;
+
+    &:hover {
+        @apply ring-purple-500 ring-2 ring-offset-1 bg-transparent;
+    }
+}

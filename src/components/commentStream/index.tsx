@@ -15,13 +15,13 @@ export default async function CommentStream(props:CommentStreamProps){
     if (comments.length === 0) return <></>
 
     const users = await clerkClient.users.getUserList({
-        externalId: comments.map(c => c.userId.toUpperCase())
+        externalId: comments.map(c => c.userId)
     });
 
     const topLevelComments = comments.filter(c => c.parentId === null);
 
     function generateCommentProps(comment:Comment): null | Parameters<typeof CommentEntry>[0] {
-        const user = users.find(u => u.externalId === comment.userId.toUpperCase());
+        const user = users.find(u => u.externalId === comment.userId);
 
         if (!user) return null;
         if (!comment.ts) return null;
@@ -52,7 +52,6 @@ export default async function CommentStream(props:CommentStreamProps){
             {topLevelComments.map(comment => {
                 const commentProps = generateCommentProps(comment);
 
-                console.log(comment, commentProps);
                 if (!commentProps) return;
 
                 return <CommentEntry {...commentProps} key={comment.id} />

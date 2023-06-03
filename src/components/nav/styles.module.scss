@@ -4,9 +4,9 @@
   justify-content: center;
   position: fixed;
   left: 0;
+  right: var(--removed-body-scroll-bar-size, 0);
   height: 50px;
   top: 0;
-  width: 100%;
   z-index: 999;
 
   ul {

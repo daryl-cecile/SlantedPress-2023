@@ -1,7 +1,12 @@
 import Link from "next/link";
 import styles from "./styles.module.scss";
+import AccountMenu from "./account";
+import { currentUser } from "@clerk/nextjs";
 
-export default function NavBar() {
+export default async function NavBar() {
+
+    const user = await currentUser();
+
     return (
         <nav className={styles.nav}>
             <ul>
@@ -18,7 +23,11 @@ export default function NavBar() {
                 <li><Link href={"/about"}>About</Link></li>
 
                 <li>
-                    <button className={styles.navAuthBtn}>Log In</button>
+                    { user ? (
+                        <AccountMenu userId={user.id} />
+                    ) : (
+                        <a href={"/sign-in"} className={styles.navAuthBtn}>Log In</a>
+                    )}
                 </li>
             </ul>
         </nav>

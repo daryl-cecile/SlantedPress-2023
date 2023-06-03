@@ -5,6 +5,7 @@ import { Article } from "@/db/schema";
 
 type ArticleCardProps = {
   article: Article;
+  hint: string
 };
 
 export default function ArticleCard(props: ArticleCardProps) {
@@ -13,7 +14,7 @@ export default function ArticleCard(props: ArticleCardProps) {
   return (
     <div className={styles.article}>
       <img src={article.heroImgSrc} alt={""} loading={"lazy"} />
-      <span className={styles.duration}>2min read</span>
+      <span className={styles.duration}>{props.hint}</span>
       <Link className={styles.info} href={`/articles/${article.slug}`}>
         <h3 className={styles.title}>{article.title}</h3>
         <span className={styles.publishDate}>

@@ -1,4 +1,4 @@
-import { boolean, integer, jsonb, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, integer, jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { InferModel, relations } from 'drizzle-orm';
 
 export const usersTable = pgTable('users', {
@@ -10,7 +10,8 @@ export type User = InferModel<typeof usersTable>; // return type when queried
 export type NewUser = InferModel<typeof usersTable, 'insert'>; // insert type
  
 export const articlesTable = pgTable('articles', {
-  id: uuid("id").primaryKey().defaultRandom(),
+  id: uuid("id").primaryKey().notNull(),
+  legacyId: integer("postId").notNull(),
   slug: text('slug').notNull(),
   title: text('title').notNull(),
   authorId: uuid("authorId").notNull(),

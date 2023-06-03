@@ -1,0 +1,1 @@
+ALTER TABLE "articles" ADD COLUMN "postId" integer NOT NULL;

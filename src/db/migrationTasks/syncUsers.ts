@@ -5,6 +5,7 @@ import { usersTable } from "@/db/schema";
 import { clerkClient } from "@clerk/nextjs";
 import { User } from "@clerk/nextjs/dist/types/server";
 import { eq } from "drizzle-orm";
+import {nanoid} from "nanoid";
 
 function pause(seconds:number) {
     return new Promise(resolve => {
@@ -77,5 +78,85 @@ export async function clerkUserAdded(clerkAccountId: string){
 }
 
 export async function migrateUsers(){
-    throw "Not implemented"
+    const oldCollection = await fetch("https://api.slantedpress.com/api-transfer/comments").then(res => res.json());
+
+    let count = 0;
+
+    for (let oldUser of oldCollection) {
+
+        oldUser.username = oldUser.username.replaceAll(".", "_");
+        oldUser.id = oldUser.id.toLowerCase();
+
+        if (oldUser.username === "selinenatour") oldUser.email = oldUser.email.replace('@', '+slantedExtra@');
+
+        const newUser:InitUserAccount = {
+            id: undefined as any,
+            username: oldUser.username,
+            firstName: oldUser.first_name,
+            lastName: oldUser.last_name,
+            emailAddress: [ oldUser.email ],
+            externalId: oldUser.id,
+            password: nanoid(18),
+            unsafeMetadata: {
+                notifyOnFlagged: true,
+                notifyOnPosts: oldUser.notify_post === 1,
+                notifyOnReview: true
+            },
+            privateMetadata: {
+                legacyPermissions: oldUser.permissions
+            },
+            publicMetadata: {
+                bio: oldUser.bio,
+                dateJoined: new Date(oldUser.date_created),
+                displayPictureSrc: oldUser.pic,
+                isBlocked: oldUser.blocked === 1,
+                isEmailPublic: oldUser.email_public === 1,
+                isSuperUser: oldUser.plus === 1,
+                isSuspended: oldUser.suspended === 1,
+                isVerified: oldUser.confirmed === 1,
+                kudos: oldUser.kudos
+            }
+        }
+
+        const added = await clerkClient.users.createUser(newUser);
+
+        await db.insert(usersTable).values({
+            clerkAccountId: added.id,
+            id: added.externalId!
+        });
+
+        if (count >= 15){
+            console.log('Waiting 10s to avoid rate limit');
+            await pause(10);
+            count = 0;
+        }
+        count ++;
+
+    }
+}
+
+export async function resyncUserIds(){
+    const allUsers = await clerkClient.users.getUserList({ limit: 499 });
+
+    let count = 0;
+
+    for (let u of allUsers) {
+
+        await clerkClient.users.updateUser(u.id, {
+            externalId: u.externalId?.toLowerCase()
+        });
+
+        if (count >= 15){
+            count = 0;
+            console.log('Waiting 10s to avoid rate limit')
+            await pause(10);
+        }
+
+        console.log('Updated', u.username);
+
+        count ++;
+
+    }
+
+    console.log('Done');
 }
